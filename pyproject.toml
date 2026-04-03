@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "har-analyser"
+version = "0.1.0"
+description = "A TUI-based HAR file analyzer"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "textual~=6.6",
+    "click~=8.3",
+]
+
+[project.scripts]
+har-analyser = "har_analyser.cli:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest~=8.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
