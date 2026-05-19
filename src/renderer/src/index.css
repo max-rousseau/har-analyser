@@ -1,0 +1,329 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-method-get: var(--method-get);
+  --color-method-post: var(--method-post);
+  --color-method-put: var(--method-put);
+  --color-method-patch: var(--method-patch);
+  --color-method-delete: var(--method-delete);
+  --color-status-2xx: var(--status-2xx);
+  --color-status-3xx: var(--status-3xx);
+  --color-status-4xx: var(--status-4xx);
+  --color-status-5xx: var(--status-5xx);
+
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+  --font-mono: "SF Mono", "JetBrains Mono", Menlo, Monaco, Consolas, monospace;
+}
+
+/* Theme packs. Each pack has a light + dark variant; :root fallback matches
+ * Plain light so first paint is sane before JS classes apply. */
+
+:root,
+.pack-plain {
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+  --muted: #f6f8fa;
+  --muted-foreground: #5a5a5a;
+  --border: #e1e4e8;
+  --accent: #e6f0fa;
+  --accent-foreground: #1a1a1a;
+  --primary: #0066cc;
+  --primary-foreground: #ffffff;
+  --method-get: #1a7f37;
+  --method-post: #bf8700;
+  --method-put: #b35900;
+  --method-patch: #6f42c1;
+  --method-delete: #cf222e;
+  --status-2xx: #1a7f37;
+  --status-3xx: #0969da;
+  --status-4xx: #bf8700;
+  --status-5xx: #cf222e;
+}
+
+.pack-plain.dark {
+  --background: #0d1117;
+  --foreground: #e6edf3;
+  --muted: #161b22;
+  --muted-foreground: #8d96a0;
+  --border: #30363d;
+  --accent: #1b2a3d;
+  --accent-foreground: #e6edf3;
+  --primary: #58a6ff;
+  --primary-foreground: #0d1117;
+  --method-get: #3fb950;
+  --method-post: #d29922;
+  --method-put: #db8a4d;
+  --method-patch: #bc8cff;
+  --method-delete: #f85149;
+  --status-2xx: #3fb950;
+  --status-3xx: #58a6ff;
+  --status-4xx: #d29922;
+  --status-5xx: #f85149;
+}
+
+.pack-forest {
+  --background: #fdfbf6;
+  --foreground: #2d3a23;
+  --muted: #f0eee5;
+  --muted-foreground: #5a6b48;
+  --border: #d6dbc4;
+  --accent: #e8ecd8;
+  --accent-foreground: #2d3a23;
+  --primary: #5a7a3c;
+  --primary-foreground: #fdfbf6;
+  --method-get: #3a6018;
+  --method-post: #9a6a18;
+  --method-put: #a05818;
+  --method-patch: #5a4880;
+  --method-delete: #a02828;
+  --status-2xx: #3a6018;
+  --status-3xx: #3a5a8a;
+  --status-4xx: #9a6a18;
+  --status-5xx: #a02828;
+}
+
+.pack-forest.dark {
+  --background: #0f1a0f;
+  --foreground: #c4d4a8;
+  --muted: #162216;
+  --muted-foreground: #7a8c68;
+  --border: #2a3a22;
+  --accent: #1f2e18;
+  --accent-foreground: #c4d4a8;
+  --primary: #a8d68c;
+  --primary-foreground: #0f1a0f;
+  --method-get: #a8d68c;
+  --method-post: #d8c060;
+  --method-put: #e8a060;
+  --method-patch: #c0a8e8;
+  --method-delete: #e88080;
+  --status-2xx: #a8d68c;
+  --status-3xx: #8aa8d8;
+  --status-4xx: #d8c060;
+  --status-5xx: #e88080;
+}
+
+.pack-midnight {
+  --background: #f4f6fa;
+  --foreground: #1a2440;
+  --muted: #eaeef5;
+  --muted-foreground: #4a5878;
+  --border: #d0d8e8;
+  --accent: #e0e6f2;
+  --accent-foreground: #1a2440;
+  --primary: #4060a0;
+  --primary-foreground: #f4f6fa;
+  --method-get: #2c6a4a;
+  --method-post: #8a6a2c;
+  --method-put: #8a4a2c;
+  --method-patch: #5a3aa0;
+  --method-delete: #a02c4a;
+  --status-2xx: #2c6a4a;
+  --status-3xx: #2c5a8c;
+  --status-4xx: #8a6a2c;
+  --status-5xx: #a02c4a;
+}
+
+.pack-midnight.dark {
+  --background: #0a0e1f;
+  --foreground: #c4d0f0;
+  --muted: #121a30;
+  --muted-foreground: #6878a0;
+  --border: #1a2240;
+  --accent: #14182c;
+  --accent-foreground: #c4d0f0;
+  --primary: #8090d0;
+  --primary-foreground: #0a0e1f;
+  --method-get: #88c8a8;
+  --method-post: #c8c870;
+  --method-put: #d8a86c;
+  --method-patch: #b0a0e8;
+  --method-delete: #e08090;
+  --status-2xx: #88c8a8;
+  --status-3xx: #8090d0;
+  --status-4xx: #c8c870;
+  --status-5xx: #e08090;
+}
+
+.pack-solarflare {
+  --background: #fdf6e8;
+  --foreground: #3a2818;
+  --muted: #f5ecd6;
+  --muted-foreground: #7a5a3a;
+  --border: #e8d8b8;
+  --accent: #f8e8d0;
+  --accent-foreground: #3a2818;
+  --primary: #c84a1a;
+  --primary-foreground: #fdf6e8;
+  --method-get: #4a702c;
+  --method-post: #c84a1a;
+  --method-put: #a85818;
+  --method-patch: #6a3878;
+  --method-delete: #a82828;
+  --status-2xx: #4a702c;
+  --status-3xx: #2c6a8c;
+  --status-4xx: #c84a1a;
+  --status-5xx: #a82828;
+}
+
+.pack-solarflare.dark {
+  --background: #1a0a05;
+  --foreground: #f0d4a8;
+  --muted: #251208;
+  --muted-foreground: #b09078;
+  --border: #3a1a0a;
+  --accent: #2a1408;
+  --accent-foreground: #f0d4a8;
+  --primary: #f0a040;
+  --primary-foreground: #1a0a05;
+  --method-get: #b8d878;
+  --method-post: #f0a040;
+  --method-put: #e8884c;
+  --method-patch: #e088c0;
+  --method-delete: #f08080;
+  --status-2xx: #b8d878;
+  --status-3xx: #88c0d8;
+  --status-4xx: #f0a040;
+  --status-5xx: #f08080;
+}
+
+.pack-cherry {
+  --background: #fef4f4;
+  --foreground: #5a1a30;
+  --muted: #f8e6ec;
+  --muted-foreground: #8a4a60;
+  --border: #f0d8e0;
+  --accent: #fae0ec;
+  --accent-foreground: #5a1a30;
+  --primary: #c8408c;
+  --primary-foreground: #fef4f4;
+  --method-get: #4a702c;
+  --method-post: #b8702c;
+  --method-put: #a85020;
+  --method-patch: #6a3088;
+  --method-delete: #c8408c;
+  --status-2xx: #4a702c;
+  --status-3xx: #4060a0;
+  --status-4xx: #b8702c;
+  --status-5xx: #c8408c;
+}
+
+.pack-cherry.dark {
+  --background: #1a0810;
+  --foreground: #f4c8d8;
+  --muted: #2a1018;
+  --muted-foreground: #b08898;
+  --border: #3a1a28;
+  --accent: #2a1018;
+  --accent-foreground: #f4c8d8;
+  --primary: #e060a0;
+  --primary-foreground: #1a0810;
+  --method-get: #a8d090;
+  --method-post: #e8c870;
+  --method-put: #f0a070;
+  --method-patch: #e090d8;
+  --method-delete: #e060a0;
+  --status-2xx: #a8d090;
+  --status-3xx: #b0c8e8;
+  --status-4xx: #e8c870;
+  --status-5xx: #e060a0;
+}
+
+.pack-terminal {
+  --background: #f4f6f0;
+  --foreground: #1c2218;
+  --muted: #e6ebd8;
+  --muted-foreground: #4c5a3c;
+  --border: #c8d0b4;
+  --accent: #d8e0c0;
+  --accent-foreground: #1c2218;
+  --primary: #3a6020;
+  --primary-foreground: #f4f6f0;
+  --method-get: #3a6020;
+  --method-post: #8a5a18;
+  --method-put: #8a4818;
+  --method-patch: #5a3a8a;
+  --method-delete: #a02828;
+  --status-2xx: #3a6020;
+  --status-3xx: #2c5a8a;
+  --status-4xx: #8a5a18;
+  --status-5xx: #a02828;
+}
+
+.pack-terminal.dark {
+  --background: #0a0f08;
+  --foreground: #b8d098;
+  --muted: #121a10;
+  --muted-foreground: #6a805a;
+  --border: #1f2c18;
+  --accent: #182218;
+  --accent-foreground: #b8d098;
+  --primary: #66cc66;
+  --primary-foreground: #0a0f08;
+  --method-get: #66cc66;
+  --method-post: #d8c060;
+  --method-put: #d89060;
+  --method-patch: #b890e8;
+  --method-delete: #e86868;
+  --status-2xx: #66cc66;
+  --status-3xx: #6088d8;
+  --status-4xx: #d8c060;
+  --status-5xx: #e86868;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+input,
+textarea,
+.allow-select {
+  user-select: text;
+}
+
+.app-drag {
+  -webkit-app-region: drag;
+}
+
+.app-no-drag {
+  -webkit-app-region: no-drag;
+}
+
+/* Subtle scrollbars that match the active theme. */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 6px;
+  border: 2px solid var(--color-background);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-muted-foreground);
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}

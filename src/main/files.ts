@@ -1,0 +1,83 @@
+import { app, BrowserWindow, dialog, ipcMain } from 'electron'
+import { readFile, writeFile } from 'node:fs/promises'
+import { basename } from 'node:path'
+
+const HAR_FILTERS = [{ name: 'HAR (HTTP Archive)', extensions: ['har', 'json'] }]
+
+export interface OpenedFile {
+  path: string
+  name: string
+  content: string
+}
+
+async function readHarFile(path: string): Promise<OpenedFile> {
+  const content = await readFile(path, 'utf8')
+  return { path, name: basename(path), content }
+}
+
+export function registerFileHandlers(): void {
+  ipcMain.handle('file:open', async (event): Promise<OpenedFile | null> => {
+    const win = BrowserWindow.fromWebContents(event.sender) ?? undefined
+    const result = await dialog.showOpenDialog(win!, {
+      title: 'Open HAR File',
+      properties: ['openFile'],
+      filters: HAR_FILTERS,
+    })
+    if (result.canceled || result.filePaths.length === 0) return null
+    const file = await readHarFile(result.filePaths[0])
+    app.addRecentDocument(file.path)
+    return file
+  })
+
+  ipcMain.handle('file:read', async (_event, path: string): Promise<OpenedFile> => {
+    const file = await readHarFile(path)
+    app.addRecentDocument(path)
+    return file
+  })
+
+  ipcMain.handle(
+    'file:save',
+    async (_event, path: string, content: string): Promise<void> => {
+      await writeFile(path, content, 'utf8')
+      app.addRecentDocument(path)
+    },
+  )
+
+  ipcMain.handle(
+    'file:save-as',
+    async (event, content: string, suggestedName: string): Promise<OpenedFile | null> => {
+      const win = BrowserWindow.fromWebContents(event.sender) ?? undefined
+      const result = await dialog.showSaveDialog(win!, {
+        title: 'Save HAR File',
+        defaultPath: suggestedName,
+        filters: HAR_FILTERS,
+      })
+      if (result.canceled || !result.filePath) return null
+      await writeFile(result.filePath, content, 'utf8')
+      app.addRecentDocument(result.filePath)
+      return {
+        path: result.filePath,
+        name: basename(result.filePath),
+        content,
+      }
+    },
+  )
+
+  ipcMain.handle(
+    'dialog:confirm-discard',
+    async (event, fileName: string): Promise<'save' | 'discard' | 'cancel'> => {
+      const win = BrowserWindow.fromWebContents(event.sender) ?? undefined
+      const result = await dialog.showMessageBox(win!, {
+        type: 'warning',
+        message: `Save changes to "${fileName}"?`,
+        detail: 'Deleted entries will be lost if you do not save them.',
+        buttons: ['Save', 'Discard', 'Cancel'],
+        defaultId: 0,
+        cancelId: 2,
+      })
+      if (result.response === 0) return 'save'
+      if (result.response === 1) return 'discard'
+      return 'cancel'
+    },
+  )
+}
