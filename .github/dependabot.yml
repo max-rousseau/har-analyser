@@ -1,0 +1,39 @@
+version: 2
+updates:
+  # npm runtime + dev dependencies
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    groups:
+      # Keep React + typing PRs bundled to reduce noise.
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
+      # Keep electron + electron-builder + electron-vite bundled — they
+      # interlock and breaking one often needs another bumped too.
+      electron-stack:
+        patterns:
+          - "electron"
+          - "electron-builder"
+          - "electron-vite"
+          - "@electron/*"
+      vitest:
+        patterns:
+          - "vitest"
+          - "@vitest/*"
+          - "@testing-library/*"
+          - "jsdom"
+
+  # GitHub Actions used in workflows — keeps the SHA pins fresh.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 3
