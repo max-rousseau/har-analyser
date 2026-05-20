@@ -1,8 +1,19 @@
-.venv/
-__pycache__/
-*.pyc
-*.egg-info/
+node_modules/
+out/
+release/
 dist/
-build/
-.env
+*.log
+.DS_Store
+.vscode/
+.idea/
+tmp/
+*.tsbuildinfo
+TODO.md
 *.har
+
+# Override global ~/.gitignore_global rule that excludes build/.
+# This dir holds tracked packaging assets (entitlements, icon) consumed by
+# electron-builder; it is NOT the build output directory (that is `out/`).
+!build/
+build/icon.original.png
+build/.DS_Store
