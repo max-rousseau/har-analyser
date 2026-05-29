@@ -12,6 +12,10 @@ updates:
       # vite ^5-7. Hold at 4.x until the toolchain can move to vite 8.
       - dependency-name: "@vitejs/plugin-react"
         update-types: ["version-update:semver-major"]
+      # Keep @types/node aligned with the runtime Node major (CI uses Node 22).
+      # Racing the types ahead lets code typecheck against APIs missing at runtime.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
     groups:
       # Keep React + typing PRs bundled to reduce noise.
       react:
