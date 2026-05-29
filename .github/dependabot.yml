@@ -16,6 +16,11 @@ updates:
       # Racing the types ahead lets code typecheck against APIs missing at runtime.
       - dependency-name: "@types/node"
         update-types: ["version-update:semver-major"]
+      # vite 8 breaks both electron-vite 5 (peer vite ^5-7) and
+      # @vitejs/plugin-react 4 (peer vite ^4.2-7). Hold at 6/7 until the
+      # toolchain (notably electron-vite) supports vite 8.
+      - dependency-name: "vite"
+        update-types: ["version-update:semver-major"]
     groups:
       # Keep React + typing PRs bundled to reduce noise.
       react:
