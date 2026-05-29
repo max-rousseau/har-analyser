@@ -7,6 +7,11 @@ updates:
       interval: "weekly"
       day: "monday"
     open-pull-requests-limit: 5
+    ignore:
+      # plugin-react 6.x requires vite ^8, but electron-vite 5 only supports
+      # vite ^5-7. Hold at 4.x until the toolchain can move to vite 8.
+      - dependency-name: "@vitejs/plugin-react"
+        update-types: ["version-update:semver-major"]
     groups:
       # Keep React + typing PRs bundled to reduce noise.
       react:
